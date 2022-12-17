@@ -1,0 +1,39 @@
+﻿@model NewsComment
+
+<form id="leave-comments" asp-controller="News" asp-action="SaveComment">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="NewsId"/>
+    <div class="row">
+        <div class="col-md-4 col-sm-12">
+            <div class="form-group">
+                <input placeholder="نام *" class="form-control" type="Text" asp-for="Name">
+                <div class="help-block with-errors"></div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <div class="form-group">
+                <input placeholder="* ایمیل" class="form-control ltr_input" asp-for="Email">
+                <div class="help-block with-errors"></div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <div class="form-group">
+                <input placeholder="آدرس وب" class="form-control ltr_input" asp-for="WebSite">
+                <div class="help-block with-errors"></div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group">
+                <textarea placeholder="پیام *" class="textarea form-control" id="form-message" rows="8" cols="20" asp-for="Text"></textarea>
+                <div class="help-block with-errors"></div>
+            </div>
+        </div>
+        <div class="g-recaptcha" data-sitekey="@ViewBag.SiteKey"></div>
+        <div class="text-danger" asp-validation-summary="All"></div>
+        <div class="col-12">
+            <div class="form-group mb-none">
+                <button type="submit" class="btn-ftg-ptp-45">ارسال دیدگاه</button>
+            </div>
+        </div>
+    </div>
+</form>

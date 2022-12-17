@@ -1,0 +1,36 @@
+﻿@inherits LayoutComponentBase
+
+
+<section class="bg-body section-space-default">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-12">
+                @Body
+            </div>
+            <div class="ne-sidebar sidebar-break-md col-lg-4 col-md-12">
+                <div class="sidebar-box">
+                    <div class="topic-border color-cod-gray mb-30">
+                        <div class="topic-box-lg color-cod-gray">دسترسی ها</div>
+                    </div>
+                    <ul class="stay-connected overflow-hidden">
+                        <li>
+                            <NavLink class="btn btn-primary" ActiveClass="btn btn-success" href="/User/EditProfile" Match="NavLinkMatch.All">
+                                <i class="fa fa-edit"></i>
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink class="btn btn-primary" ActiveClass="btn btn-success" href="/User/ChangePassword" Match="NavLinkMatch.All">
+                                <i class="fa fa-lock"></i>
+                            </NavLink>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@code {
+
+}

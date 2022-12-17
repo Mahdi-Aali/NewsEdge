@@ -1,0 +1,23 @@
+﻿@model IQueryable<News>
+
+
+<div class="sidebar-box">
+    <div class="topic-border color-scampi mb-5">
+        <div class="topic-box-lg color-scampi">اخبار جدید</div>
+    </div>
+    <div class="row">
+        @foreach(News news in Model)
+        {
+            <div class="col-lg-6 col-md-6 col-sm-6 col-6">
+                <div class="mt-25">
+                    <a asp-controller="News" asp-action="SingleNews" asp-route-id="@news.NewsId" class="img-opacity-hover">
+                        <img src="/Images/News/@news.ImagePath" alt="@news.Title" class="img-fluid mb-10 width-100">
+                    </a>
+                    <h3 class="title-medium-dark size-md mb-none">
+                        <a asp-controller="News" asp-action="SingleNews" asp-route-id="@news.NewsId">@news.Title.Substring(0, 34)</a>
+                    </h3>
+                </div>
+            </div>
+        }
+    </div>
+</div>

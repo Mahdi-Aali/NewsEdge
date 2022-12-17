@@ -1,0 +1,53 @@
+﻿@model NewsSection
+
+@{
+	Layout = string.Empty;
+}
+
+<section id="basic-form-layouts">
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<div class="card-title-wrap bar-warning">
+						<h4 class="card-title" id="basic-layout-colored-form-control">ویرایش قسمت</h4>
+					</div>
+					<p class="mb-0">ویرایش قسمت @Model.SectionName</p>
+				</div>
+				<div class="card-body">
+					<div class="px-3">
+
+						<form class="form" asp-area="Admin" asp-controller="NewsSectionManagment" asp-action="EditSectionName" method="post">
+							@Html.AntiForgeryToken()
+							<input type="hidden" asp-for="NewsSectionId" />
+							<div class="form-body">
+								<div class="row">
+									<div class="col-12">
+										<div class="form-group">
+											<label for="userinput1">نام</label>
+											<input asp-for="SectionName" class="form-control border-primary" />
+											<span class="text-danger" asp-validation-for="SectionName"></span>
+										</div>
+									</div>
+
+								</div>
+							</div>
+
+							<div class="form-actions left">
+								<button type="reset" class="btn btn-danger mr-1">
+									<i class="icon-trash"></i> لغو
+								</button>
+								<button type="submit" class="btn btn-success">
+									<i class="icon-note"></i> ذخیره
+								</button>
+							</div>
+						</form>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<partial name="_ValidationPartial" />

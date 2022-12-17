@@ -1,0 +1,82 @@
+﻿@page "/Register"
+@model RegisterModel
+@{
+    ViewBag.Title = "ثبت نام";
+    string siteKey = HttpContext.RequestServices.GetRequiredService<IConfiguration>()["CaptchaSiteKey"];
+}
+
+@section PageBanner
+    {
+    <section class="breadcrumbs-area" style="background-image: url('img/banner/breadcrumbs-banner.jpg');">
+        <div class="container">
+            <div class="breadcrumbs-content">
+                <h1>براحتی ثبت نام کنید.</h1>
+                <ul>
+                    <li>
+                        <a href="/">خانه</a> -
+                    </li>
+                    <li>ثبت نام</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+}
+
+<section class="bg-body section-space-less30">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="login-form">
+                    <form asp-page="/Account/Register" method="post" id="Register-Form">
+                        @Html.AntiForgeryToken()
+                        <label>نام کاربری</label>
+                        <input asp-for="Register.UserName" placeholder="Armin" />
+                        <label>ایمیل</label>
+                        <input asp-for="Register.Email" placeholder="example@@example.com" />
+                        <label>شماره تلفن همراه</label>
+                        <input asp-for="Register.PhoneNumber" placeholder="09093332211"
+                               oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');" />
+                        <label>رمز عبور</label>
+                        <input asp-for="Register.Password" placeholder="Secret@123">
+                        <label>تکرار رمز عبور</label>
+                        <input asp-for="Register.ConfirmPassword" placeholder="Secret@123" />
+
+                        <div class="g-recaptcha" data-sitekey="@siteKey"></div>
+
+                        <label class="text-info">ثبت نام در سایت به منزله قبولی تمامی قوانین میباشد.</label>
+
+                        <div class="text-danger" asp-validation-summary="All"></div>
+
+                        <button type="button" onclick="SubmitForm()">ثبت نام</button>
+                        <button class="form-cancel" type="reset" value="">پاک کردن فرم</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@section script
+    {
+    <partial name="_ValidationPartial"/>
+    <script>
+        function SubmitForm()
+        {
+            Swal.fire({
+                title: 'مطمئن هستید؟',
+                text: "آیا از اطلاعات وارد شده اطمینان دارید؟",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'بله',
+                cancelButtonText: 'خیر'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $("#Register-Form").submit();
+                }
+            })
+        }
+    </script>
+}

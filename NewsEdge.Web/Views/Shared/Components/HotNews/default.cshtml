@@ -1,0 +1,73 @@
+﻿@using NewsEdge.Utilities.Convertor;
+@model IEnumerable<News>
+
+
+
+@if (Model.Any())
+{
+    <div class="mb-20-r ne-isotope">
+        <div class="topic-border color-cinnabar mb-30">
+            <div class="topic-box-lg color-cinnabar">اخبار داغ</div>
+            <div class="more-info-link">
+                <a asp-controller="Archive" asp-action="Index">
+                    بیشتر
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+        <div class="featuredContainer">
+            <div class="row politics">
+                <div class="col-md-6 col-sm-12">
+                    <div class="img-overlay-70 img-scale-animate mb-30">
+                        <a asp-action="SingleNews" asp-controller="News" asp-route-id="@Model.First().NewsId">
+                            <img src="/Images/News/@Model.First().ImagePath" alt="news" class="img-fluid width-100" style="height: 507px">
+                        </a>
+                        <div class="mask-content-lg">
+                            <div class="topic-box-sm color-cinnabar mb-20">@Model.First().NewsCategories.First().Category.Title</div>
+                            <div class="post-date-light">
+                                <ul>
+                                    <li>
+                                        <span>توسط</span>
+                                        <a href="single-news-1.html">@Model.First().NewsEdgeUser.RealName</a>
+                                    </li>
+                                    <li>
+                                        <span>
+                                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        </span>@Model.First().CreateDate.ToShamsi()
+                                    </li>
+                                </ul>
+                            </div>
+                            <h2 class="title-medium-light size-lg">
+                                <a asp-action="SingleNews" asp-controller="News" asp-route-id="@Model.First().NewsId">@Model.First().Title.Substring(0, 32) ...</a>
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    @foreach(News news in Model.ToArray()[1..])
+                    {
+                        <div class="media mb-30">
+                            <a class="width38-lg width40-md img-opacity-hover" asp-action="SingleNews" asp-controller="News" asp-route-id="@news.NewsId">
+                                <img src="/Images/News/@news.ImagePath" alt="news" class="img-fluid" style="height:105px">
+                            </a>
+                            <div class="media-body">
+                                <div class="post-date-dark">
+                                    <ul>
+                                        <li>
+                                            <span>
+                                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                                            </span>@news.CreateDate.ToShamsi()
+                                        </li>
+                                    </ul>
+                                </div>
+                                <h3 class="title-medium-dark size-md mb-none">
+                                    <a asp-action="SingleNews" asp-controller="News" asp-route-id="@news.NewsId">@news.Title.Substring(0, 32) ...</a>
+                                </h3>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}

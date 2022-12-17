@@ -1,0 +1,29 @@
+﻿@model IEnumerable<News>
+
+@if (Model.Any())
+{
+    <section class="bg-accent section-space-less4">
+        <div class="container">
+            <div class="row tab-space2">
+                @foreach(var item in Model)
+                {
+                    <div class="col-lg-4 col-md-12 mb-4">
+                        <div class="img-overlay-70">
+                            <div class="mask-content-sm">
+                                <h3 class="title-medium-light">
+                                    <a asp-controller="News" asp-action="SingleNews" asp-route-id="@item.NewsId">@item.Title</a>
+                                </h3>
+                            </div>
+                            <div class="text-center">
+                                <a class="play-btn popup-youtube" href="@item.YouTubeLink">
+                                    <img src="/img/banner/play.png" alt="play" class="img-fluid">
+                                </a>
+                            </div>
+                            <img src="/Images/News/@item.ImagePath" alt="news" class="img-fluid width-100" style="height:227px">
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>      
+    </section>
+}

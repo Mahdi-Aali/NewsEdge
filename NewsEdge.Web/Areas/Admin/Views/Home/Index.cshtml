@@ -1,0 +1,131 @@
+﻿@{
+    ViewBag.Title = "Home";
+}
+
+<section id="minimal-statistics-bg">
+    <div class="row">
+        <div class="col-12 mt-3 mb-1">
+            <h2 class="content-header">آمار حداقل با رنگ پس زمینه</h2>
+            <p class="content-sub-header">آمار بر روی حداقل کارت با رنگ پس زمینه.</p>
+        </div>
+    </div>
+    <div class="row match-height">
+        <div class="col-xl-3 col-lg-6 col-12">
+            <div class="card bg-success" style="height: 144.391px;">
+                <div class="card-body">
+                    <div class="px-3 py-3">
+                        <div class="row text-white">
+                            <div class="col-12 text-right pr-0">
+                                <h4 class="text-white mb-2">سطوح دسترسی</h4>
+                                <span><vc:roles-count-view-component /> نقش موجود</span>
+                                <br>
+                                <span><a asp-area="Admin" asp-controller="Roles" asp-action="Index" class="btn btn-info">مدیریت سطوح دسترسی</a></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-12">
+            <div class="card bg-danger" style="height: 144.391px;">
+                <div class="card-body">
+                    <div class="px-3 py-3">
+                        <div class="row text-white">
+                            <div class="col-12 text-right pr-0">
+                                <h4 class="text-white mb-2">کاربران</h4>
+                                <span><vc:users-count-view-component /> کاربر عضو</span>
+                                <br>
+                                <span><a asp-area="Admin" asp-controller="Users" asp-action="Index" class="btn btn-info">مدیریت کاربران</a></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-12">
+            <div class="card bg-warning" style="height: 144.391px;">
+                <div class="card-body">
+                    <div class="px-3 py-3">
+                        <div class="row text-white">
+                            <div class="col-12 text-right pr-0">
+                                <h4 class="text-white mb-2">دسته بندی ها</h4>
+                                <span><vc:category-count-view-component /> دسته بندی موجود</span>
+                                <br>
+                                <span><a asp-area="Admin" asp-controller="Category" asp-action="Index" class="btn btn-info">مدیریت دسته بندی ها</a></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-12">
+            <div class="card bg-success" style="height: 144.391px;">
+                <div class="card-body">
+                    <div class="px-3 py-3">
+                        <div class="row text-white">
+                            <div class="col-12 text-right pr-0">
+                                <h4 class="text-white mb-2">اخبار</h4>
+                                <span><vc:news-count-view-component /> خبر موجود</span>
+                                <br>
+                                <span><a asp-area="Admin" asp-controller="News" asp-action="Index" class="btn btn-info">مدیریت اخبار</a></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row match-height">
+        
+        <div class="col-xl-3 col-lg-6 col-12">
+            <div class="card bg-success" style="height: 144.391px;">
+                <div class="card-body">
+                    <div class="px-3 py-3">
+                        <div class="row text-white">
+                            <div class="col-12 text-right pr-0">
+                                <h4 class="text-white mb-2">قسمت ها</h4>
+                                <span><vc:news-sections-count-view-component/> قسمت موجود</span>
+                                <br>
+                                <span><a asp-area="Admin" asp-controller="NewsSectionManagment" asp-action="Index" class="btn btn-info">مدیریت قسمت ها</a></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-12">
+            <div class="card gradient-red-pink">
+                <div class="card-body">
+                    <div class="px-3 py-3">
+                        <div class="media">
+                            <div class="align-center">
+                                <i class="icon-speech text-white font-large-2 float-left"></i>
+                            </div>
+                            <div class="media-body text-white text-right">
+                                <h3 class="text-white">156</h3>
+                                <span>نظرات جدید</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-12">
+            <div class="card gradient-mint">
+                <div class="card-body">
+                    <div class="px-3 py-3">
+                        <div class="media">
+                            <div class="align-center">
+                                <i class="icon-graph text-white font-large-2 float-left"></i>
+                            </div>
+                            <div class="media-body text-white text-right">
+                                <h3 class="text-white">64.89 %</h3>
+                                <span>نرخ بیکاری</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,53 @@
+﻿@using NewsEdge.Utilities.Convertor;
+@model IEnumerable<News>
+
+
+
+<div class="col-lg-4 col-md-12">
+    <div class="topic-border @(ViewBag.Color) mb-30 width-100">
+        <div class="topic-box-lg @(ViewBag.Color)">@ViewBag.SectionName</div>
+    </div>
+    <div class="img-overlay-70 img-scale-animate mb-30">
+        <div class="mask-content-sm">
+            <div class="post-date-light">
+                <ul>
+                    <li>
+                        <span>توسط</span>
+                        <a href="#">@Model.ElementAt(0).NewsEdgeUser.RealName</a>
+                    </li>
+                    <li>
+                        <span>  
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                        </span>@Model.ElementAt(0).CreateDate.ToShamsi()
+                    </li>
+                </ul>
+            </div>
+            <h3 class="title-medium-light">
+                <a asp-controller="News" asp-action="SingleNews" asp-route-id="@Model.ElementAt(0).NewsId">@Model.ElementAt(0).Title</a>
+            </h3>
+        </div>
+        <img src="/Images/News/@Model.ElementAt(0).ImagePath" alt="news" class="img-fluid width-100" style="height:220px">
+    </div>
+    @foreach(var news in Model.ToArray()[1..])
+    {
+        <div class="media mb-30">
+            <a class="img-opacity-hover" asp-controller="News" asp-action="SingleNews" asp-route-id="@news.NewsId">
+                <img src="/Images/News/@news.ImagePath" alt="news" class="img-fluid" style="height:100px">
+            </a>
+            <div class="media-body">
+                <div class="post-date-dark">
+                    <ul>
+                        <li>
+                            <span>
+                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                            </span>@news.CreateDate.ToShamsi()
+                        </li>
+                    </ul>
+                </div>
+                <h3 class="title-medium-dark size-md mb-none">
+                    <a asp-controller="News" asp-action="SingleNews" asp-route-id="@news.NewsId">@news.Title.Substring(0, 32) ...</a>
+                </h3>
+            </div>
+        </div>
+    }
+</div>

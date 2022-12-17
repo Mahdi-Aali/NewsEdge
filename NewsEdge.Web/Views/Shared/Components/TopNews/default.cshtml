@@ -1,0 +1,70 @@
+﻿@using NewsEdge.Utilities.Convertor;
+@model IEnumerable<News>
+
+@if(Model.Any())
+{
+    <!-- News Slider Area Start Here -->
+    <section class="bg-accent section-space-less2">
+        <div class="container">
+            <div class="row tab-space1">
+                <div class="col-lg-6 col-md-12">
+                    <div class="img-overlay-70 img-scale-animate mb-2">
+                        <img src="/Images/News/@Model.First().ImagePath" alt="news" class="img-fluid width-100" style="height:386px">
+                        <div class="mask-content-lg">
+                            <div class="post-date-light">
+                                <ul>
+                                    <li>
+                                        <span>توسط</span>
+                                        <a href="single-news-1.html">@Model.First().NewsEdgeUser.RealName</a>
+                                    </li>
+                                    <li>
+                                        <span>
+                                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        </span>@Model.First().CreateDate.ToShamsi()
+                                    </li>
+                                </ul>
+                            </div>
+                            <h1 class="title-medium-light">
+                                <a asp-controller="News" asp-action="SingleNews" asp-route-id="@Model.First().NewsId">@Model.First().Title</a>
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-12">
+                    <div class="row tab-space1">
+                        <div class="col-12">
+                            <div class="img-overlay-70 img-scale-animate mb-2">
+                                <div class="mask-content-sm">
+                                    <h2 class="title-medium-light">
+                                        <a asp-controller="News" asp-action="SingleNews" asp-route-id="@(Model.ElementAtOrDefault(1)?.NewsId ?? Model.First().NewsId)">@(Model.ElementAtOrDefault(1)?.Title ?? Model.First().Title) </a>
+                                    </h2>
+                                </div>
+                                <img src="/Images/News/@(Model.ElementAtOrDefault(1)?.ImagePath ?? Model.First().ImagePath)" alt="news" class="img-fluid width-100" style="height:200px">
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-12">
+                            <div class="img-overlay-70 img-scale-animate mb-2">
+                                <div class="mask-content-sm">
+                                    <h3 class="title-medium-light">
+                                        <a asp-controller="News" asp-action="SingleNews" asp-route-id="@(Model.ElementAtOrDefault(2)?.NewsId ?? Model.First().NewsId)">@(Model.ElementAtOrDefault(2)?.Title ?? Model.First().Title)</a>
+                                    </h3>
+                                </div>
+                                <img src="/Images/News/@(Model.ElementAtOrDefault(2)?.ImagePath ?? Model.First().ImagePath)" alt="news" class="img-fluid width-100" style="height:184px">
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-12">
+                            <div class="img-overlay-70 img-scale-animate mb-2">
+                                <div class="mask-content-sm">
+                                    <h3 class="title-medium-light">
+                                        <a asp-controller="News" asp-action="SingleNews" asp-route-id="@(Model.ElementAtOrDefault(3)?.NewsId ?? Model.First().NewsId)">@(Model.ElementAtOrDefault(3)?.Title ?? Model.First().Title)</a>
+                                    </h3>
+                                </div>
+                                <img src="/Images/News/@(Model.ElementAtOrDefault(3)?.ImagePath ?? Model.First().ImagePath)" alt="news" class="img-fluid width-100" style="height:184px">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}

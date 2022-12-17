@@ -1,0 +1,101 @@
+﻿@page "/User/EditProfile"
+@inherits OwningComponentBase<UserManager<NewsEdgeUser>>
+@using NewsEdge.DTOs.User;
+
+
+<div class="bg-accent p-35-r mb-50 item-shadow-1">
+    <div class="media-none-xs">
+        <EditForm Model="EditProfileViewModel" OnValidSubmit="SubmitForm">
+            <DataAnnotationsValidator />
+            <div class="input-group">
+                <label>نام واقعی :</label>
+                <InputText class="form-control mr-2" placeholder="مهدی محمدی" @bind-Value="EditProfileViewModel.RealName"></InputText>
+            </div>
+            <br />
+            <div class="input-group">
+                <label>درباره خودتان :</label>
+                <InputTextArea class="form-control mr-2" placeholder="درباره خودتان بنویسید." cols="12" rows="6" @bind-Value="EditProfileViewModel.Bio"></InputTextArea>
+            </div>
+            <br? />
+            <p>@ImageName</p>
+            <div class="custom-file">
+                <InputFile class="custom-file-input" OnChange="(e => OnChangeEvent(e))"></InputFile>
+                <label class="custom-file-label">انتخاب تصویر</label>
+
+            </div>
+
+            <br />
+            <ValidationMessage For="() => EditProfileViewModel.RealName" />
+            <ValidationMessage For="() => EditProfileViewModel.Bio" />
+
+
+            <button type="submit" class="btn btn-lg btn-success">ویرایش پروفایل</button>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthenticationState { get; set; }
+
+    public UserManager<NewsEdgeUser> UserManager => Service;
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+    public NewsEdgeUser NewsEdgeUser { get; set; } = new();
+
+    public string ImageName { get; set; } = string.Empty;
+
+    public void OnChangeEvent(InputFileChangeEventArgs e)
+    {
+        ImageName = e.File.Name;
+        if (e.File.ContentType is not "image/jpeg")
+        {
+            ImageName = "فایل وارد شده معتبر نیست. فقط پسوند *.jpg معتبر است.";
+        }
+        else
+        {
+            EditProfileViewModel.Image = e.File;
+        }
+    }
+
+    public EditProfileViewModel EditProfileViewModel { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        NewsEdgeUser = await UserManager.FindByNameAsync(await AuthenticationState.GetUserNameAsync());
+        EditProfileViewModel = new()
+            {
+                RealName = NewsEdgeUser.RealName,
+                Bio = NewsEdgeUser.Bio
+            };
+    }
+
+    public async Task SubmitForm()
+    {
+        if (EditProfileViewModel.RealName != string.Empty 
+            && EditProfileViewModel.Bio != string.Empty)
+        {
+            if (EditProfileViewModel.Image is not null && EditProfileViewModel.Image.ContentType == "image/jpeg")
+            {
+                string path = Path.Combine(Directory.GetCurrentDirectory(), "Images", "Users", "UserProfile");
+                if (!string.IsNullOrEmpty(NewsEdgeUser.ImagePath))
+                {
+                    File.Delete(Path.Combine(path, NewsEdgeUser.ImagePath));
+                }
+                string imagePath = Guid.NewGuid() + Path.GetExtension(EditProfileViewModel.Image.Name);
+                NewsEdgeUser.ImagePath = imagePath;
+                using (FileStream fileStream = new(Path.Combine(path, imagePath), FileMode.Create))
+                {
+                    await EditProfileViewModel.Image.OpenReadStream().CopyToAsync(fileStream);
+                }
+            }
+            NewsEdgeUser.RealName = EditProfileViewModel.RealName;
+            NewsEdgeUser.Bio = EditProfileViewModel.Bio;
+            await UserManager.UpdateAsync(NewsEdgeUser);
+            NavigationManager.NavigateTo("/User");
+        }
+    }
+}

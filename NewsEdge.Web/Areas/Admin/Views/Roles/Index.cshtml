@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "Roles";
+}
+@section css
+    {
+    <link href="/app-assets/vendors/css/sweetalert2.min.css" rel="stylesheet" />
+}
+
+<section id="extended">
+    <a class="btn btn-success" onclick="OpenCreateModal()">ثبت نقش جدید</a>
+    <a class="btn btn-sm btn-info" asp-area="Admin" asp-controller="Home" asp-action="Index">
+        <i class="fa fa-arrow-left"></i>
+    </a>
+    <div class="row" id="table-body">
+        
+    </div>
+</section>
+
+<div class="modal fade text-left" id="default" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel1"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>
+
+@section script
+    {
+    <script src="/app-assets/vendors/js/sweetalert2.min.js"></script>
+    <script src="/app-assets/js/components-modal.min.js"></script>
+    <script src="/NewsEdge/js/AdminRoleManager.js"></script>
+}

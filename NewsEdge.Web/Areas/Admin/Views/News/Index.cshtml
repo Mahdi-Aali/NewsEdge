@@ -1,0 +1,128 @@
+﻿@using NewsEdge.Utilities.Convertor;
+@{
+    ViewBag.Title = "News";
+    int rowNumber = 1;
+}
+@model ItemsWithPageDataViewModel<News>
+@section css
+    {
+    <link rel="stylesheet" href="/app-assets/vendors/css/sweetalert2.min.css" />
+}
+
+
+<section id="extended">
+    <a class="btn btn-success" asp-area="Admin" asp-controller="News" asp-action="Create">خبر جدید</a>
+    <a class="btn btn-sm btn-info" asp-area="Admin" asp-controller="Home" asp-action="Index">
+        <i class="fa fa-arrow-left"></i>
+    </a>
+    <form id="NewsForm" asp-area="Admin" asp-controller="News" asp-action="Index" method="post">
+        <input type="hidden" id="pageId" name="pageId" value="@Model.PageData.CurrentPage" />
+        @Html.AntiForgeryToken()
+    </form>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title">اخبار</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="card-block">
+                        <table class="table table-responsive-md text-center">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>عنوان</th>
+                                    <th>وضعیت</th>
+                                    <th>توسط</th>
+                                    <th>تصویر</th>
+                                    <th>تاریخ ثبت</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Entities.Any())
+                                {
+                                    @foreach (News news in Model.Entities)
+                                    {
+                                        <tr>
+                                            <td>@rowNumber</td>
+                                            <td>@news.Title.Substring(0, 10) ...</td>
+                                            <td>@(news.State ? "تائید شده" : "عدم نمایش")</td>
+                                            <td>@@@news.NewsEdgeUser.UserName</td>
+                                            <td>
+                                                <img src="/Images/News/@news.ImagePath" width="150" height="75" />
+                                            </td>
+                                            <td>@news.CreateDate.ToShamsi()</td>
+                                            <td>
+                                                <a class="success p-0" data-original-title="Detail of News" title="Detail">
+                                                    <i class="fa fa-file-o font-medium-3 mr-2"></i>
+                                                </a>
+                                                <a class="primary p-0" data-original-title="Edit News" title="Edit" asp-area="Admin" asp-controller="News" asp-action="Edit" asp-route-id="@news.NewsId">
+                                                    <i class="fa fa-pencil font-medium-3 mr-2"></i>
+                                                </a>
+                                                <a class="danger p-0" data-original-title="Delete News" title="Delete">
+                                                    <i class="fa fa-trash-o font-medium-3 mr-2"></i>
+                                                </a>
+                                                <a class="info p-0" data-original-title="Change State" title="Change State" onclick="CahngeState(@news.NewsId)">
+                                                    <i class="fa fa-refresh Change State font-medium-3 mr-2"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        _ = rowNumber++;
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <th colspan="4">هیچ خبری ثبت نشده است.</th>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    @if (Model.Entities.Any())
+                    {
+                        <nav page-data="@Model.PageData" form-id="@("NewsForm")"></nav>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section script
+    {
+    <script src="/Interop.js"></script>
+    <script src="/app-assets/vendors/js/sweetalert2.min.js"></script>
+    <script>
+        function CahngeState(id) {
+            swal({
+                title: 'مطمئن هستید؟',
+                text: "آیا از تغییر وضعیت این خبر مطمئن هستید ؟",
+                type: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#0CC27E',
+                cancelButtonColor: '#FF586B',
+                confirmButtonText: 'بله',
+                cancelButtonText: "خیر"
+            }).then(function (isConfirm) {
+                if (isConfirm) {
+                    $.get("/Admin/News/ChangeState/" + id, function (result) {
+                        if(result)
+                        {
+                            document.location.reload();
+                        }
+                        else
+                        {
+                            swal("مشگلی پیش آمد", "مشگلی در تغییر وضعیت این نقش پیش آمد", "error").done();
+                        }
+                    })
+                }
+            }).catch(swal.noop);
+        }
+    </script>
+}

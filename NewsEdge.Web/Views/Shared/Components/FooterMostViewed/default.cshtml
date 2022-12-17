@@ -1,0 +1,34 @@
+﻿@using NewsEdge.Utilities.Convertor;
+@model IEnumerable<News>
+
+<div class="col-lg-4 col-md-6 col-sm-12">
+    <div class="footer-box">
+        <h2 class="title-bold-light title-bar-left text-uppercase">مطالب پربازدید</h2>
+        <ul class="most-view-post">
+            @foreach(News news in Model)
+            {
+                <li>
+                    <div class="media">
+                        <a href="post-style-1.html">
+                            <img src="/Images/News/@news.ImagePath" alt="@news.Title" class="img-fluid" style="height:78px">
+                        </a>
+                        <div class="media-body">
+                            <h3 class="title-medium-light size-md mb-10">
+                                <a asp-controller="News" asp-action="SingleNews" asp-route-id="@news.NewsId">@news.Title.Substring(0, 32)...</a>
+                            </h3>
+                            <div class="post-date-light">
+                                <ul>
+                                    <li>
+                                        <span>
+                                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        </span>@news.CreateDate.ToShamsi()
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+</div>

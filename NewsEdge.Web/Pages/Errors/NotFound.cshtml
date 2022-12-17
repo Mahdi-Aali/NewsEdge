@@ -1,0 +1,33 @@
+﻿@page
+@model NewsEdge.Web.Pages.Errors.NotFoundModel
+@{
+    ViewBag.Title = "صفحه مورد نظر پیدا نشد.";
+}
+
+@section PageBanner
+{
+    <section class="breadcrumbs-area" style="background-image: url('img/banner/breadcrumbs-banner.jpg');">
+        <div class="container">
+            <div class="breadcrumbs-content">
+                <h1>صفحه خطای 404</h1>
+                <ul>
+                    <li>
+                        <a href="index.html">خانه</a> -
+                    </li>
+                    <li>404</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+}
+
+
+<section class="bg-primary pt-100 pb-100">
+    <div class="container">
+        <div class="text-center">
+            <img src="img/404.png" alt="404" class="img-fluid m-auto">
+            <h2 class="title-regular-light size-c60 mb-60">واای... خطای 404</h2>
+            <a href="/" class="btn-gtf-ltl-64">رفتن به صفحه خانه</a>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,242 @@
+﻿@using NewsEdge.Utilities.Convertor;
+@{
+    ViewBag.Title = $"جزئیات خبر {Model.Title}";
+    IEnumerable<string> tages = ViewBag.Tages ?? Enumerable.Empty<string>();
+}
+
+@model News
+
+
+@section PageBanner
+    {
+    <section class="breadcrumbs-area" style="background-image: url('img/banner/breadcrumbs-banner.jpg');">
+        <div class="container">
+            <div class="breadcrumbs-content">
+                <h1>@Model.Title</h1>
+                <ul>
+                    <li>
+                        <a href="/">خانه</a> -
+                    </li>
+                    <li>اخبار</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+}
+
+
+<section class="bg-body section-space-less30">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-12 mb-30">
+                <div class="news-details-layout1">
+                    <div class="position-relative mb-30">
+                        <img src="/Images/News/@Model.ImagePath" alt="news-details" class="img-fluid">
+                        <div class="topic-box-top-sm">
+                            <div class="topic-box-sm color-cinnabar mb-20">@tages.First()</div>
+                        </div>
+                    </div>
+                    <h2 class="title-semibold-dark size-c30">@Model.Title</h2>
+                    <ul class="post-info-dark mb-30">
+                        <li>
+                            <a href="#">
+                                <span>توسط</span> @(string.IsNullOrEmpty(Model.NewsEdgeUser.RealName) ? Model.NewsEdgeUser.UserName : Model.NewsEdgeUser.RealName)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-calendar" aria-hidden="true"></i>@Model.CreateDate.ToShamsi()
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-eye" aria-hidden="true"></i>@ViewBag.ViewCount
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-comments" aria-hidden="true"></i>@ViewBag.CommentCount
+                            </a>
+                        </li>
+                    </ul>
+
+                    @Html.Raw(Model.Description)
+                    <ul class="blog-tags item-inline">
+                        <li>برچسب ها</li>
+                        @foreach (string tag in tages)
+                        {
+                            <li>
+                                <a href="/Archive?text=@tag">#@tag</a>
+                            </li>
+                        }
+                    </ul>
+                    <div class="post-share-area mb-40 item-shadow-1">
+                        <p>به اشتراک گذاری این مطلب!</p>
+                        <ul class="social-default item-inline">
+                            <li>
+                                <a href="#" class="facebook">
+                                    <i class="fa fa-facebook" aria-hidden="true"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="twitter">
+                                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="google">
+                                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="pinterest">
+                                    <i class="fa fa-telegram" aria-hidden="true"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="rss">
+                                    <i class="fa fa-rss" aria-hidden="true"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="linkedin">
+                                    <i class="fa fa-linkedin" aria-hidden="true"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="author-info p-35-r mb-50 border-all">
+                        <div class="media media-none-xs">
+                            <img src="/Images/Users/UserProfile/@Model.NewsEdgeUser.ImagePath" alt="author" class="img-fluid rounded-circle" width="100" height="100">
+                            <div class="media-body pt-10 media-margin30">
+                                <h3 class="size-lg mb-5">@Model.NewsEdgeUser.RealName</h3>
+                                <div class="post-by mb-5">توسط مدیر</div>
+                                <p class="mb-15">@Model.NewsEdgeUser.Bio</p>
+                                <ul class="author-social-style2 item-inline">
+                                    <li>
+                                        <a href="#" title="facebook">
+                                            <i class="fa fa-facebook" aria-hidden="true"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" title="twitter">
+                                            <i class="fa fa-twitter" aria-hidden="true"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" title="google-plus">
+                                            <i class="fa fa-google-plus" aria-hidden="true"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" title="linkedin">
+                                            <i class="fa fa-linkedin" aria-hidden="true"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" title="pinterest">
+                                            <i class="fa fa-telegram" aria-hidden="true"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="leave-comments">
+                        <h2 class="title-semibold-dark size-xl mb-40">ارسال دیدگاه</h2>
+                        <vc:news-comment-form news-id="@Model.NewsId" />
+                        @if (TempData["Error"] is not null)
+                        {
+                            <div class="text-danger">@TempData["Error"]</div>
+                        }
+                        @if (TempData["Success"] is not null)
+                        {
+                            <div class="alert alert-success">
+                                نظر شما با موفقیت در سایت قرار گرفت
+                            </div>
+                        }
+                    </div>
+                    <div class="comments-area">
+                       <vc:news-comments-list news-id="@Model.NewsId"/>
+                    </div>
+
+                </div>
+            </div>
+            <div class="ne-sidebar sidebar-break-md col-lg-4 col-md-12">
+                <div class="sidebar-box">
+                    <div class="topic-border color-cod-gray mb-30">
+                        <div class="topic-box-lg color-cod-gray">در ارتباط باشید</div>
+                    </div>
+                    <ul class="stay-connected overflow-hidden">
+                        <li class="facebook">
+                            <i class="fa fa-facebook" aria-hidden="true"></i>
+                            <div class="connection-quantity">50.2 k</div>
+                            <p>طرفدار</p>
+                        </li>
+                        <li class="twitter">
+                            <i class="fa fa-twitter" aria-hidden="true"></i>
+                            <div class="connection-quantity">10.3 k</div>
+                            <p>دنبال کننده</p>
+                        </li>
+                        <li class="linkedin">
+                            <i class="fa fa-linkedin" aria-hidden="true"></i>
+                            <div class="connection-quantity">25.4 k</div>
+                            <p>طرفدار</p>
+                        </li>
+                        <li class="rss">
+                            <i class="fa fa-rss" aria-hidden="true"></i>
+                            <div class="connection-quantity">20.8 k</div>
+                            <p>مشترک</p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sidebar-box">
+                    <div class="ne-banner-layout1 text-center">
+                        <a href="#">
+                            <img src="img/banner/banner3.jpg" alt="ad" class="img-fluid">
+                        </a>
+                    </div>
+                </div>
+                <vc:last-news take="6" />
+                <div class="sidebar-box">
+                    <div class="topic-border color-cod-gray mb-30">
+                        <div class="topic-box-lg color-cod-gray">خبرنامه</div>
+                    </div>
+                    <div class="newsletter-area bg-primary">
+                        <h2 class="title-medium-light size-xl pl-30 pr-30">در لیست ایمیل ما عضو شوید تا به روز رسانی ها را دریافت کنید!</h2>
+                        <img src="img/banner/newsletter.png" alt="newsletter" class="img-fluid m-auto mb-15">
+                        <p>در خبرنامه ما عضو شوید تا به روز بمانید</p>
+                        <form>
+                            <div class="input-group stylish-input-group">
+                                <input type="text" placeholder="ایمیل خود را وارد کنید" class="form-control ltr_input">
+                                <span class="input-group-addon">
+                                    <button type="submit">
+                                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="sidebar-box">
+                    <div class="topic-border color-cod-gray mb-25">
+                        <div class="topic-box-lg color-cod-gray">برچسب ها</div>
+                    </div>
+                    <ul class="sidebar-tags">
+                        @foreach (string tag in tages)
+                        {
+                            <li>
+                                <a href="/Archive?text=@tag">@tag</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section script
+    {
+    <partial name="_ValidationPartial" />
+}

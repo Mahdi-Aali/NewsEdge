@@ -1,0 +1,18 @@
+﻿@model IEnumerable<News>
+
+@if (Model.Any())
+{
+    <div class="col-lg-10 col-md-9 col-sm-8 col-6">
+        <div class="feeding-text-dark">
+            <ol id="sample" class="ticker">
+                @foreach (News news in Model)
+                {
+                    <li>
+                        <a asp-controller="News" asp-action="SingleNews" asp-route-id="@news.NewsId">@news.Title</a>
+                    </li>
+                }
+            </ol>
+        </div>
+    </div>
+
+}

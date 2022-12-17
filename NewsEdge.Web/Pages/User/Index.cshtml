@@ -1,0 +1,30 @@
+﻿@page "/User"
+@model NewsEdge.Web.Pages.User.IndexModel
+@{
+    ViewBag.Title = "داشبورد کاربری";
+}
+
+@section PageBanner
+    {
+    <section class="breadcrumbs-area" style="background-image: url('img/banner/breadcrumbs-banner.jpg');">
+        <div class="container">
+            <div class="breadcrumbs-content">
+                <h1>داشبورد کاربری</h1>
+                <ul>
+                    <li>
+                        <a href="/">خانه</a> -
+                    </li>
+                    <li>داشبورد کاربری</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+}
+
+
+<component type="typeof(NewsEdge.Web.Blazor.Routed)" render-mode="Server"></component>
+
+@section script
+{
+    <partial name="_ValidationPartial"/>
+}

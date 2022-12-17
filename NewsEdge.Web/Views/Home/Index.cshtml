@@ -1,0 +1,131 @@
+﻿@{
+    ViewBag.Title = "News Edge اخبار";
+}
+
+        <vc:top-news />
+        <!-- News Slider Area End Here -->
+        <!-- Top Story Area Start Here -->
+    <section class="bg-body section-space-default">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-12">
+                <vc:hot-news />
+                <!--RecommendedNews-->
+                <vc:recommended-news />
+            </div>
+            <div class="ne-sidebar sidebar-break-md col-lg-4 col-md-12">
+                <div class="sidebar-box">
+                    <div class="topic-border color-cod-gray mb-30">
+                        <div class="topic-box-lg color-cod-gray">در ارتباط باشید</div>
+                    </div>
+                    <ul class="stay-connected overflow-hidden">
+                        <li class="facebook">
+                            <i class="fa fa-facebook" aria-hidden="true"></i>
+                            <div class="connection-quantity">50.2 k</div>
+                            <p>طرفدار</p>
+                        </li>
+                        <li class="twitter">
+                            <i class="fa fa-twitter" aria-hidden="true"></i>
+                            <div class="connection-quantity">10.3 k</div>
+                            <p>دنبال کننده</p>
+                        </li>
+                        <li class="linkedin">
+                            <i class="fa fa-linkedin" aria-hidden="true"></i>
+                            <div class="connection-quantity">25.4 k</div>
+                            <p>طرفدار</p>
+                        </li>
+                        <li class="rss">
+                            <i class="fa fa-rss" aria-hidden="true"></i>
+                            <div class="connection-quantity">20.8 k</div>
+                            <p>مشترک</p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sidebar-box">
+                    <div class="ne-banner-layout1 text-center">
+                        <a href="#">
+                            <img src="/img/banner/banner3.jpg" alt="ad" class="img-fluid">
+                        </a>
+                    </div>
+                </div>
+                <vc:last-news />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="ne-banner-layout1 mt-20-r text-center">
+                    <a href="#">
+                        <img src="/img/banner/banner2.jpg" alt="ad" class="img-fluid">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+        <!-- Top Story Area End Here -->
+        <!-- Video Area Start Here -->
+        <vc:youtube-news />
+        <!-- Video Area End Here -->
+        <!-- Latest News Area Start Here -->
+        <section class="bg-body section-space-less30">
+            <div class="container">
+                <div class="row">
+                    <vc:middle-news section-id="4" color="@("color-cutty-sark")" />
+                    <vc:middle-news section-id="5" color="@("color-pomegranate")" />
+                    <vc:middle-news section-id="6" color="@("color-web-orange")" />
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="ne-banner-layout1 mb-50 mt-20-r text-center">
+                            <a href="#">
+                                <img src="/img/banner/banner2.jpg" alt="ad" class="img-fluid">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Latest News Area End Here -->
+        <!-- More News Area Start Here -->
+        <section class="bg-accent section-space-less30">
+            <div class="container">
+                <div class="row">
+                    <vc:more-news />
+                    <div class="ne-sidebar sidebar-break-md col-lg-4 col-md-12">
+                        <div class="sidebar-box">
+                            <div class="ne-banner-layout1 text-center">
+                                <a href="#">
+                                    <img src="/img/banner/banner6.jpg" alt="ad" class="img-fluid">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="sidebar-box">
+                            <div class="topic-border color-cod-gray mb-30">
+                                <div class="topic-box-lg color-cod-gray">خبرنامه</div>
+                            </div>
+                            <div class="newsletter-area bg-primary">
+                                <h2 class="title-medium-light size-xl">در لیست ایمیل ما عضو شوید تا به روز رسانی ها را دریافت کنید!</h2>
+                                <img src="/img/banner/newsletter.png" alt="newsletter" class="img-fluid mb-40">
+                                <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت</p>
+                                <form>
+                                    <div class="input-group stylish-input-group">
+                                        <input type="text" placeholder="ایمیل خود را وارد کنید" class="form-control ltr_input">
+                                        <span class="input-group-addon">
+                                            <button type="submit">
+                                                <i class="fa fa-angle-left" aria-hidden="true"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- More News Area End Here -->
+        <!-- Category Area Start Here -->
+        <vc:before-footer-news />
+        <!-- Category Area End Here -->
+        <!-- Footer Area Start Here -->

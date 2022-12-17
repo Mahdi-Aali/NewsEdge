@@ -1,0 +1,80 @@
+﻿@page "/Login"
+@model LoginModel
+@{
+    ViewBag.Title = "ورود";
+    string siteKey = HttpContext.RequestServices.GetRequiredService<IConfiguration>()["CaptchaSiteKey"];
+}
+
+@section PageBanner
+    {
+    <section class="breadcrumbs-area" style="background-image: url('img/banner/breadcrumbs-banner.jpg');">
+        <div class="container">
+            <div class="breadcrumbs-content">
+                <h1>ورود به NewsEdge</h1>
+                <ul>
+                    <li>
+                        <a href="/">خانه</a> -
+                    </li>
+                    <li>ورود</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+}
+
+
+<section class="bg-body section-space-less30">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="login-form">
+                    @if (TempData["Success"] is "Success")
+                    {
+                        <div class="card">
+                            <div class="card-header bg-success text-white">عملیات موفق</div>
+                            <div class="card-body text-success">
+                                حساب شما با موفقیت ایجاد شد.
+                            </div>
+                        </div>
+                    }
+                    @if (TempData["ResetPassword"] is "Success")
+                    {
+                        <div class="card">
+                            <div class="card-header bg-success text-white">عملیات موفق</div>
+                            <div class="card-body text-success">
+                                رمز عبور شما با موفقیت تغییر کرد. اکنون میتوانید وارد حساب خود شوید.
+                            </div>
+                        </div>
+                    }
+                    <form asp-page="/Account/Login" method="post">
+                        @Html.AntiForgeryToken()
+                        <label>ایمیل</label>
+                        <input asp-for="LoginViewModel.Email" placeholder="example@@example.com" />
+                        <label>رمز عبور</label>
+                        <input asp-for="LoginViewModel.Password" placeholder="Secret@123">
+
+                        <div class="checkbox checkbox-primary">
+                            <input id="checkbox" asp-for="LoginViewModel.RememberMe">
+                            <label for="checkbox">به خاطر سپاری</label>
+                        </div>
+
+                        <div class="g-recaptcha" data-sitekey="@siteKey"></div>
+
+                        <a asp-page="/Account/ForgotPassword" >رمز عبورم را فراموش کرده ام</a>
+                        <br/>
+                        <a asp-page="/Account/Register">حسابی ندارید؟ ثبت نام کنید.</a>
+
+                        <div class="text-danger" asp-validation-summary="All"></div>
+
+                        <button type="submit">ورود</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section script
+{
+    <partial name="_ValidationPartial" />
+}

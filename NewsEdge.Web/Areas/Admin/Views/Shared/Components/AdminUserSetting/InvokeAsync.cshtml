@@ -1,0 +1,18 @@
+﻿@model NewsEdgeUser
+@{
+    string imagePath = Model.ImagePath == string.Empty ? "/img/avatar.png" : $"/Images/Users/UserProfile/{Model.ImagePath}";
+}
+
+
+<li class="dropdown nav-item mr-0">
+    <a id="dropdownBasic3" href="#" data-toggle="dropdown" class="nav-link position-relative dropdown-user-link dropdown-toggle" aria-expanded="false">
+        <span class="avatar avatar-online"><img id="navbar-avatar" src="@imagePath" alt="avatar"></span>
+        <p class="d-none">تنظیمات کاربر</p>
+    </a>
+    <div aria-labelledby="dropdownBasic3" class="dropdown-menu dropdown-menu-left">
+        <div class="arrow_box_right">
+            <a asp-page="/User/Index" class="dropdown-item py-1"><i class="ft-edit ml-2"></i><span>پروفایل من</span></a><a href="chat.html" class="dropdown-item py-1"><i class="ft-message-circle ml-2"></i><span>چت من</span></a><a href="javascript:;" class="dropdown-item py-1"><i class="ft-settings ml-2"></i><span>تنظیمات</span></a>
+            <div class="dropdown-divider"></div><a asp-page="/Account/LogOut" class="dropdown-item"><i class="ft-power ml-2"></i><span>خروج</span></a>
+        </div>
+    </div>
+</li>

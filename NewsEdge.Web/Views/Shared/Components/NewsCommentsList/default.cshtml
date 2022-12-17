@@ -1,0 +1,33 @@
+﻿@using NewsEdge.Utilities.Convertor;
+@model IQueryable<NewsComment>
+
+
+<h2 class="title-semibold-dark size-xl border-bottom mb-40 pb-20">@Model.Count().ToString("N0") دیدگاه</h2>
+@if (Model.Any())
+{
+    <ul>
+        @foreach (NewsComment comment in Model)
+        {
+            <li>
+                <div class="media media-none-xs">
+                    <img src="/img/avatar.png" class="img-fluid rounded-circle" alt="comments" width="100" height="100">
+                    <div class="media-body comments-content media-margin30">
+                        <h3 class="title-semibold-dark">
+                            <a href="#">
+                                @comment.Name ،
+                                <span> @comment.CreateDate.ToShamsi()</span>
+                            </a>
+                        </h3>
+                        <p>@comment.Text</p>
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <div class="alert alert-info">
+        هنوز هیچ دیدگاهی ثبت نشده است.
+    </div>
+}

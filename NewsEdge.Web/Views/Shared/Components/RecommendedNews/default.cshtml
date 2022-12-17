@@ -1,0 +1,32 @@
+﻿@using NewsEdge.Utilities.Convertor;
+@model IEnumerable<News>
+
+<div class="row tab-space1 mb-25">
+    <div class="col-12">
+        <div class="topic-border color-apple mb-30 width-100">
+            <div class="topic-box-lg color-apple">@ViewBag.SectionName</div>
+        </div>
+    </div>
+    @foreach(var news in Model)
+    {
+        <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+        <div class="img-overlay-70 img-scale-animate mb-2">
+            <div class="mask-content-xs">
+                <div class="post-date-light">
+                    <ul>
+                        <li>
+                            <span>
+                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                            </span>@news.CreateDate.ToShamsi()
+                        </li>
+                    </ul>
+                </div>
+                <h3 class="title-medium-light">
+                    <a asp-controller="News" asp-action="SingleNews" asp-route-id="@news.NewsId">@news.Title</a>
+                </h3>
+            </div>
+            <img src="/Images/News/@news.ImagePath" alt="news" class="img-fluid width-100" style="height:200px">
+        </div>
+    </div>
+    }
+</div>

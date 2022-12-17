@@ -1,0 +1,145 @@
+﻿@using NewsEdge.Utilities.Convertor;
+@using System.Text;
+@using NewsEdge.Utilities.TagHelpers;
+@{
+    ViewBag.Title = "آرشیو خبر ها";
+    List<Category> categories = ViewBag.Categories as List<Category>;
+}
+@model IEnumerable<News>
+
+@section PageBanner
+    {
+    <section class="breadcrumbs-area" style="background-image: url('/img/banner/breadcrumbs-banner.jpg');">
+        <div class="container">
+            <div class="breadcrumbs-content">
+                <h1>ارشیو خبر ها</h1>
+                <ul>
+                    <li>
+                        <a href="/">خانه</a> -
+                    </li>
+                    <li>آرشیو خبر ها</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+}
+
+
+<section class="bg-body section-space-less30">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-12">
+                <form id="archive-search" class="archive-search-box bg-accent item-shadow-1" asp-action="Index" asp-controller="Archive" method="get">
+                    <div class="row tab-space5">
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-6">
+                            <div class="form-group">
+                                <input type="text" name="text" value="@ViewBag.Text" class="border-black form-control" placeholder="عنوان خبر"/>
+                            </div>
+                        </div>
+                        <input type="hidden" id="selectedCategory" name="selectedCategory" value="@ViewBag.SelectedCategory" />
+                        <input type="hidden" name="pageId" id="pageId" value="@ViewBag.PageId" />
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-6 text-right">
+                            <button type="submit" class="btn-ftg-ptp-40 disabled mb-5">جستجو</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="row">
+                    @foreach(News news in Model)
+                    {
+                        <div class="col-xl-12 col-lg-6 col-md-6 col-sm-12">
+                        <div class="media media-none--lg mb-30">
+                            <div class="position-relative width-40">
+                                <a asp-controller="News" asp-action="SingleNews" asp-route-id="@news.NewsId" class="img-opacity-hover img-overlay-70">
+                                    <img src="/Images/News/@news.ImagePath" alt="news" class="img-fluid" style="height:208px">
+                                </a>
+                                <div class="topic-box-top-xs">
+                                    <div class="topic-box-sm color-cod-gray mb-20">@news.NewsTags.ElementAt(1).Title</div>
+                                </div>
+                            </div>
+                            <div class="media-body p-mb-none-child media-margin30">
+                                <div class="post-date-dark">
+                                    <ul>
+                                        <li>
+                                            <span>توسط</span>
+                                            <a href="single-news-1.html">@news.NewsEdgeUser.RealName</a>
+                                        </li>
+                                        <li>    
+                                            <span>
+                                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                                            </span>@news.CreateDate.ToShamsi()
+                                        </li>
+                                    </ul>
+                                </div>
+                                <h3 class="title-semibold-dark size-lg mb-15">
+                                    <a asp-controller="News" asp-action="SingleNews" asp-route-id="@news.NewsId">@news.Title.Substring(0, 32)...</a>
+                                </h3>
+                                <p>
+                                    @Html.Raw(news.Description.Substring(0, 100))
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                </div>
+                <div class="row mt-20-r mb-30">
+                    <div class="col-sm-6 col-12">
+                        <nav class="pagination-btn-wrapper text-center--xs mb15--xs" page-data="@ViewBag.PageData as PageData" form-id="@("archive-search")">
+                            @*<ul>
+                                <li class="active">
+                                    <a href="#">1</a>
+                                </li>
+                                <li>
+                                    <a href="#">2</a>
+                                </li>
+                                <li>
+                                    <a href="#">3</a>
+                                </li>
+                                <li>
+                                    <a href="#">4</a>
+                                </li>
+                            </ul>*@
+                        </nav>
+                    </div>
+                    <div class="col-sm-6 col-12">
+                        <div class="pagination-result text-left pt-10 text-center--xs">
+                            <p class="mb-none">صفحه 1 از 4</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ne-sidebar sidebar-break-md col-lg-4 col-md-12">
+                <div class="sidebar-box">
+                    <div class="topic-border color-cod-gray mb-30">
+                        <div class="topic-box-lg color-cod-gray">دسته بندی ها</div>
+                    </div>
+                    <ul class="archive-list">
+                        @foreach (Category category in categories)
+                        {
+                            <li>
+                                <a href="javascript:setCategory(@category.CategoryId);">@category.Title</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <div class="sidebar-box">
+                    <div class="ne-banner-layout1 text-center">
+                        <a href="#">
+                            <img src="/img/banner/banner3.jpg" alt="ad" class="img-fluid">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section script
+{
+    <script>
+        function setCategory(id)
+        {
+            $("#selectedCategory").val("" + id);
+            $("#archive-search").submit();
+        }
+    </script>
+}

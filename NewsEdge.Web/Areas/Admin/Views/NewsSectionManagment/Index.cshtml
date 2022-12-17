@@ -1,0 +1,106 @@
+﻿@{
+    ViewBag.Title = "News section managment";
+    int rowNumber = 1;
+}
+@section css
+{
+    <link href="/app-assets/vendors/css/sweetalert2.min.css" rel="stylesheet" />
+}
+@model IQueryable<NewsSection>
+
+<section id="extended">
+    <a class="btn btn-sm btn-info" asp-area="Admin" asp-controller="Home" asp-action="Index">
+        <i class="fa fa-arrow-left"></i>
+    </a>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title">مدیریت قسمت ها سایت</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="card-block">
+                        <table class="table table-responsive-md text-center">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>عنوان</th>
+                                    <th>تعداد خبر</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Any())
+                                {
+                                    @foreach (NewsSection newsSection in Model)
+                                    {
+                                        <tr>
+                                            <td>@rowNumber</td>
+                                            <td>@newsSection.SectionName</td>
+                                            <td>@newsSection.NewsInSections.Count.ToString("N0")</td>
+                                            <td>
+                                                <a class="success p-0" data-original-title="Detail of News" title="Detail">
+                                                    <i class="fa fa-file-o font-medium-3 mr-2"></i>
+                                                </a>
+                                                <a class="primary p-0" data-original-title="Edit News" title="Edit" onclick="EditSectionName(@newsSection.NewsSectionId)">
+                                                    <i class="fa fa-pencil font-medium-3 mr-2"></i>
+                                                </a>
+                                                <a class="info p-0" data-original-title="Add News" title="Add" asp-area="Admin" asp-controller="NewsSectionManagment" asp-action="AddNewsToSection" asp-route-id="@newsSection.NewsSectionId">
+                                                    <i class="fa fa-plus font-medium-3 mr-2"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        _ = rowNumber++;
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <th colspan="4">هیچ قسمتی ثبت نشده است.</th>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<div class="modal fade text-left" id="default" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel1"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section script
+{
+    <script src="/app-assets/vendors/js/sweetalert2.min.js"></script>
+    <script src="/app-assets/js/components-modal.min.js"></script>
+    <script>
+        function EditSectionName(id)
+        {
+            $.get("/Admin/NewsSectionManagment/EditSectionName/" + id, function(result) 
+            {
+                $("#default").modal();
+                $("#myModalLabel1").val("ویرایش قسمت");
+                $(".modal-body").html(result);
+            })
+        }
+    </script>
+}

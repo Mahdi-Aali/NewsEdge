@@ -1,0 +1,151 @@
+﻿@{
+    ViewBag.Title = "Create News";
+    IEnumerable<Category> categories = ViewBag.Categories ?? Enumerable.Empty<Category>();
+    IEnumerable<long> selectedCategory = ViewBag.SelectedCategories ?? Enumerable.Empty<long>();
+}
+
+@model NewsViewModel
+<section id="basic-form-layouts">
+    <a class="btn btn-sm btn-primary" asp-area="Admin" asp-controller="News" asp-action="Index">
+        <i class="ft-chevron-left"></i>
+    </a>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-warning">
+                        <h4 class="card-title" id="basic-layout-colored-form-control">ثبت خبر</h4>
+                    </div>
+                    <p class="mb-0">خبر جدیدی را ثبت کنید</p>
+                </div>
+                <div class="card-body">
+                    <div class="px-3">
+                        <form class="form" asp-area="Admin" asp-controller="News" asp-action="Create" method="post" enctype="multipart/form-data">
+                            @Html.AntiForgeryToken()
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            گروه های خبری
+                                        </div>
+                                        <div class="card-body">
+                                            <ul>
+                                                @foreach (Category category in categories.Where(c => c.ParentId.Equals(null)))
+                                                {
+                                                    <li class="border">
+                                                        <div class="row">
+                                                            <label class="mr-2 ml-2">@category.Title</label>
+                                                            <input type="checkbox" value="@category.CategoryId" class="form-check" name="categories" checked="@(selectedCategory.Any(sc => sc.Equals(category.CategoryId)))" />
+                                                        </div>
+                                                        @if (categories.Any(c => c.ParentId.Equals(category.CategoryId)))
+                                                        {
+                                                            <ul>
+                                                                @foreach(Category category1 in categories.Where(c => c.ParentId.Equals(category.CategoryId)))
+                                                                {
+                                                                    <li class="row border">
+                                                                        <label class="mr-2 ml-2">@category1.Title</label>
+                                                                        <input type="checkbox" class="form-check" value="@category1.CategoryId" name="categories" checked="@(selectedCategory.Any(sc => sc.Equals(category1.CategoryId)))" />
+                                                                        @if (categories.Any(c => c.ParentId.Equals(category1.CategoryId)))
+                                                                        {
+                                                                            <ul>
+                                                                                @foreach(Category category2 in categories.Where(c => c.ParentId.Equals(category1.CategoryId)))
+                                                                                {
+                                                                                    <li class="row border">
+                                                                                        <label class="mr-2 ml-2">@category2.Title</label>
+                                                                                        <input type="checkbox" class="form-check" value="@category2.CategoryId" name="categories" checked="@(selectedCategory.Any(sc => sc.Equals(category2.CategoryId)))" />
+                                                                                    </li>
+                                                                                }
+                                                                            </ul>
+                                                                        }
+                                                                    </li>
+                                                                }
+                                                            </ul>
+                                                        }
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-9 col-md-9 col-sm-12">
+                                    <div class="form-body">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label>عنوان</label>
+                                                    <input asp-for="Title" class="form-control border-primary" />
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>متن خبر</label>
+                                                    <textarea asp-for="Description" class="form-control border-primary"></textarea>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>تصویر خبر</label>
+                                                    <img id="frame" width="300px" height="150px" src="/img/news/news177.jpg" />
+                                                    <div class="input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">بارگذاری</span>
+                                                        </div>
+                                                        <div class="custom-file">
+                                                            <input accept=".jpg,.jpeg" type="file" asp-for="Image" onchange="loadImg()" class="custom-file-input">
+                                                            <label class="custom-file-label">انتخاب فایل</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>کلمات کلیدی٬ با # از هم جدا شوند.</label>
+                                                    <input asp-for="Tages" class="form-control border-primary"/>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <iframe src="https://www.youtube.com/" width="150" height="75" id="preview-frame"></iframe>
+                                                    <lable>لینک یوتیوب</lable>
+                                                    <input class="form-control border-primary" asp-for="YouTubeLink" onkeypress="ChangeLink()" />
+                                                </div>
+                                            </div>
+                                            <div class="text-danger" asp-validation-summary="All"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-actions left">
+                                        <button type="reset" class="btn btn-danger mr-1">
+                                            <i class="icon-trash"></i> لغو
+                                        </button>
+                                        <button type="submit" class="btn btn-success">
+                                            <i class="icon-note"></i> ذخیره
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@section script
+    {
+    <partial name="_ValidationPartial" />
+    <script src="/Newsedge/ckeditor4/ckeditor.js"></script>
+    <script>
+        $(document).ready(function () {
+            CKEDITOR.replace('Description');
+        });
+
+        function loadImg() {
+            $("#frame").fadeOut('slow');
+            $('#frame').attr('src', URL.createObjectURL(event.target.files[0]));
+            $("#frame").fadeIn('slow');
+        }
+
+        function ChangeLink()
+        {
+            let value = $("#YouTubeLink").val();
+            $("preview-frame").attr("src", value);
+        }
+    </script>
+}

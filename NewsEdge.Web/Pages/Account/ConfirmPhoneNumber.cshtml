@@ -1,0 +1,52 @@
+﻿@page "/ConfirmPhoneNumber"
+@model ConfirmPhoneNumberModel
+@{
+    ViewBag.Title = "تائید شماره تلفن همراه شما";
+    string siteKey = HttpContext.RequestServices.GetRequiredService<IConfiguration>()["CaptchaSiteKey"];
+}
+
+@section PageBanner
+    {
+    <section class="breadcrumbs-area" style="background-image: url('img/banner/breadcrumbs-banner.jpg');">
+        <div class="container">
+            <div class="breadcrumbs-content">
+                <h1>فعال سازی شماره تلفن همراه</h1>
+                <ul>
+                    <li>
+                        <a href="/">خانه</a> -
+                    </li>
+                    <li>فعال سازی</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+}
+
+
+<section class="bg-body section-space-less30">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="login-form">
+                    <form asp-page="/Account/ConfirmPhoneNumber" method="post">
+                        @Html.AntiForgeryToken()
+                        <label>کد ارسال شده</label>
+                        <input oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');" asp-for="ConfirmPhoneNumberViewModel.ConfirmCode" placeholder="789456" maxlength="6" />
+
+                        <div class="g-recaptcha" data-sitekey="@siteKey"></div>
+                        <br />
+
+                        <div class="text-danger" asp-validation-summary="All"></div>
+
+                        <button type="submit">فعال سازی</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section script
+    {
+    <partial name="_ValidationPartial" />
+}

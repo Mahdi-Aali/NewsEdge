@@ -1,0 +1,53 @@
+﻿@{
+    Layout = "";
+}
+
+
+@model RoleViewModel
+<section id="basic-form-layouts">
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<div class="card-title-wrap bar-warning">
+						<h4 class="card-title" id="basic-layout-colored-form-control">ثبت نقش</h4>
+					</div>
+					<p class="mb-0">وبرایش نقش @Model.Name</p>
+				</div>
+				<div class="card-body">
+					<div class="px-3">
+
+						<form id="EditRoleForm" class="form" asp-area="Admin" asp-controller="Roles" asp-action="Edit" method="post">
+							@Html.AntiForgeryToken()
+							<input asp-for="Id" type="hidden"/>
+							<div class="form-body">
+								<div class="row">
+									<div class="col-12">
+										<div class="form-group">
+											<label for="userinput1">عنوان</label>
+											<input asp-for="Name" class="form-control border-primary" />
+										</div>
+										<div class="text-danger" asp-validation-summary="All"></div>
+									</div>
+
+								</div>
+							</div>
+
+							<div class="form-actions left">
+								<button type="reset" class="btn btn-danger mr-1">
+									<i class="icon-trash"></i> لغو
+								</button>
+								<a onclick="ConfirmEditRole()" class="btn btn-success">
+									<i class="icon-note"></i> ذخیره
+								</a>
+							</div>
+						</form>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<partial name="_ValidationPartial" />

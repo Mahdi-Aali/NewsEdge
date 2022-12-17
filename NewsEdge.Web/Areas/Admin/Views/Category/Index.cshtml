@@ -1,0 +1,191 @@
+﻿@using NewsEdge.DataAccess.Models.PrimaryModels;
+@{
+    ViewBag.Title = "Categories";
+    int rowNumber = 1;
+}
+@model IEnumerable<Category>
+@section css
+    {
+    <link href="/app-assets/vendors/css/sweetalert2.min.css" rel="stylesheet" />
+}
+<section id="extended">
+    <a class="btn btn-success" onclick="CreateNewCategory()">ثبت دسته بندی جدید</a>
+    <a class="btn btn-sm btn-info" asp-area="Admin" asp-controller="Home" asp-action="Index">
+        <i class="fa fa-arrow-left"></i>
+    </a>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title">سطوح دسترسی</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="card-block">
+                        <table class="table table-responsive-md text-center">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>گروه</th>
+                                    <th>زیر گروه ها</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Any())
+                                {
+                                    @foreach (Category category in Model.Where(c => c.ParentId.Equals(null)))
+                                    {
+                                        <tr>
+                                            <td>@rowNumber</td>
+                                            <td>@category.Title</td>
+                                            <td>
+                                                @if (Model.Any(c => c.ParentId.Equals(category.CategoryId)))
+                                                {
+                                                    <a class="btn btn-link" onclick="SlideToggle('row_' + @category.CategoryId)">
+                                                        Slide
+                                                    </a>
+                                                    <div style="display: none;" id="row_@category.CategoryId">
+                                                        <ul>
+                                                            @foreach (Category category1 in Model.Where(c => c.ParentId.Equals(category.CategoryId)))
+                                                            {
+                                                                <li>
+                                                                    @category1.Title  <a class="success p-0" data-original-title="Add Category" title="Add" onclick="CreateNewCategory(@category1.CategoryId)">
+                                                                        <i class="fa fa-plus font-medium-3 mr-2"></i>
+                                                                    </a>
+                                                                    <a class="primary p-0" data-original-title="Edit Category" title="Edit" onclick="EditCategory(@category1.CategoryId)">
+                                                                        <i class="fa fa-pencil font-medium-3 mr-2"></i>
+                                                                    </a>
+                                                                    <a class="danger p-0" data-original-title="Delete Category" title="Delete" onclick="DeleteCategory(@category1.CategoryId)">
+                                                                        <i class="fa fa-trash-o font-medium-3 mr-2"></i>
+                                                                    </a>
+
+                                                                    @if (Model.Any(c => c.ParentId.Equals(category1.CategoryId)))
+                                                                    {
+                                                                        <ul>
+                                                                            @foreach (Category category2 in Model.Where(c => c.ParentId.Equals(category1.CategoryId)))
+                                                                            {
+                                                                                <li>
+                                                                                    @category2.Title
+                                                                                    <a class="primary p-0" data-original-title="Edit Category" title="Edit" onclick="EditCategory(@category2.CategoryId)">
+                                                                                        <i class="fa fa-pencil font-medium-3 mr-2"></i>
+                                                                                    </a>
+                                                                                    <a class="danger p-0" data-original-title="Delete Category" title="Delete" onclick="DeleteCategory(@category2.CategoryId)">
+                                                                                        <i class="fa fa-trash-o font-medium-3 mr-2"></i>
+                                                                                    </a>
+                                                                                </li>
+                                                                            }
+                                                                        </ul>
+                                                                    }
+                                                                </li>
+                                                            }
+                                                        </ul>
+                                                    </div>
+                                                }
+                                            </td>
+                                            <td>
+                                                <a class="success p-0" data-original-title="Add Category" title="Add" onclick="CreateNewCategory(@category.CategoryId)">
+                                                    <i class="fa fa-plus font-medium-3 mr-2"></i>
+                                                </a>
+                                                <a class="primary p-0" data-original-title="Edit Category" title="Edit" onclick="EditCategory(@category.CategoryId)">
+                                                    <i class="fa fa-pencil font-medium-3 mr-2"></i>
+                                                </a>
+                                                <a class="danger p-0" data-original-title="Delete Category" title="Delete" onclick="DeleteCategory(@category.CategoryId)">
+                                                    <i class="fa fa-trash-o font-medium-3 mr-2"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        _ = rowNumber++;
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <th colspan="4">هیچ گروهی ثبت نشده است.</th>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<div class="modal fade text-left" id="default" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel1"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section script
+    {
+    <script src="/app-assets/vendors/js/sweetalert2.min.js"></script>
+    <script src="/app-assets/js/components-modal.min.js"></script>
+    <script>
+
+        function SlideToggle(id) {
+            $("#" + id).slideToggle();
+        }
+
+        function CreateNewCategory(parentId) {
+            $.get("/Admin/Category/Create/" + parentId, function (result) {
+                $("#default").modal();
+                $("#myModalLabel1").val("افزودن دسته بندی جدید");
+                $(".modal-body").html(result);
+            });
+        }
+
+        function EditCategory(id) {
+            $.get("/Admin/Category/Edit/" + id, function (result) {
+                $("#default").modal();
+                $("#myModalLabel1").val("ویرایش دسته بندی");
+                $(".modal-body").html(result);
+            });
+        }
+
+        function DeleteCategory(id) {
+            swal({
+                title: 'مطمئن هستید؟',
+                text: "آیا از حذف این دسته بندی مطمئن هستید ؟ این عمل غیر قابل بازگشت است!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#0CC27E',
+                cancelButtonColor: '#FF586B',
+                confirmButtonText: 'بله',
+                cancelButtonText: "خیر"
+            }).then(function (isConfirm) {
+                if (isConfirm) {
+                    DeleteCategoryConfirm(id);
+                }
+            }).catch(swal.noop);
+        }
+
+
+        function DeleteCategoryConfirm(id) {
+            $.get("/Admin/Category/Delete/" + id, function (result) {
+                if (result == true) {
+                    document.location.reload();
+                    swal("موفق", "نقش مورد نظر با موفقیت حذف شد.", "success").done();
+                }
+                else {
+                    swal("خطا", "مشگلی در حذف این نقش یش آمد.", "error").done();
+                }
+            });
+        }
+    </script>
+}

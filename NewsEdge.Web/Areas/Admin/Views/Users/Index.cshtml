@@ -1,0 +1,60 @@
+﻿@{
+    ViewBag.Title = "Users";
+    int rowNumber = 1;
+}
+
+@model ItemsWithPageDataViewModel<NewsEdgeUser>
+<section id="extended">
+    <a class="btn btn-sm btn-info" asp-area="Admin" asp-controller="Home" asp-action="Index">
+        <i class="fa fa-arrow-left"></i>
+    </a>
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title-wrap bar-success">
+                    <h4 class="card-title">کاربران سایت</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="card-block">
+                    <table class="table table-responsive-md text-center">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>نام کاربری</th>
+                                <th>نام واقعی</th>
+                                <th>ایمیل</th>
+                                <th>شماره تلفن همراه</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (NewsEdgeUser user in Model.Entities)
+                            {
+                                <tr>
+                                    <td>@rowNumber</td>
+                                    <td>@user.UserName</td>
+                                    <td>@user.RealName</td>
+                                    <td class="@(user.EmailConfirmed ? "bg-success" : "bg-danger") text-white">@user.Email</td>
+                                    <td class="@(user.PhoneNumberConfirmed ? "bg-success" : "bg-danger") text-white">@user.PhoneNumber</td>
+                                    <td>
+                                        <a asp-area="Admin" asp-controller="Users" asp-action="Edit" asp-route-id="@user.Id" class="success p-0" data-original-title="Edit user" title="Edit">
+                                            <i class="fa fa-pencil font-medium-3 mr-2"></i>
+                                        </a>
+                                        <a asp-area="Admin" asp-controller="Users" asp-action="Detail" asp-route-id="@user.Id" class="primary p-0" data-original-title="Delete Detail" title="Detail">
+                                            <i class="fa fa-file-o font-medium-3 mr-2"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                _ = rowNumber++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer">
+                <nav aria-label="Page navigation mb-3" page-data="@Model.PageData"></nav>
+            </div>
+        </div>
+    </div>
+</section>

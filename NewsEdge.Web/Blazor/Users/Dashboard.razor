@@ -1,0 +1,107 @@
+﻿@inherits OwningComponentBase<UserManager<NewsEdgeUser>>
+@page "/User"
+@using NewsEdge.Utilities.Email;
+
+<div class="bg-accent p-35-r mb-50 item-shadow-1">
+    @if (EmailSending is true)
+    {
+        <div class="alert alert-success">
+            ایمیلی حاول لینک فعال سازی حساب شما به ایمیل @NewsEdgeUser.Email ارسال شد
+
+            <button class="btn btn-info" @onclick="(() => EmailSending = !EmailSending)">تائید</button>
+        </div>
+    }
+    <div class="media media-none-xs">
+        <img src="@GetProfileImage()" alt="author" class="img-fluid" width="100" height="100">
+        <div class="media-body pt-10 media-margin30">
+            <h3 class="size-lg mb-5">@(string.IsNullOrEmpty(NewsEdgeUser.RealName) ? NewsEdgeUser.UserName : NewsEdgeUser.RealName)</h3>
+
+            <div class="post-by mb-5">
+                <p>
+                    @NewsEdgeUser.Email ( @if (NewsEdgeUser.EmailConfirmed)
+                    {
+                        <span class="text-success">تائید شده</span>
+                    }
+                    else
+                    {
+                        <span class="text-danger">تائید نشده</span> <span>{ برای تائید <a class="text-primary" @onclick="SendEmailConfirmAsync">کلیک</a> کنید }</span>
+                    } )
+                </p>
+            </div>
+            <div class="post-by mb-5">Role name</div>
+            <p class="mb-15">@(string.IsNullOrEmpty(NewsEdgeUser.Bio) ? "-" : NewsEdgeUser.Bio)</p>
+            <ul class="author-social-style1 item-inline">
+                <li>
+                    <a href="#" title="facebook">
+                        <i class="fa fa-facebook" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" title="twitter">
+                        <i class="fa fa-twitter" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" title="google-plus">
+                        <i class="fa fa-google-plus" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" title="linkedin">
+                        <i class="fa fa-linkedin" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" title="pinterest">
+                        <i class="fa fa-telegram" aria-hidden="true"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+@code {
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthenticationState { get; set; }
+
+    [Inject]
+    public IHttpContextAccessor Context { get; set; }
+
+    [Inject]
+    public LinkGenerator LinkGenerator { get; set; }
+
+    UserManager<NewsEdgeUser> UserManager => Service;
+
+    public NewsEdgeUser NewsEdgeUser { get; set; } = new();
+
+    private string GetProfileImage()
+    {
+        return !string.IsNullOrEmpty(NewsEdgeUser.ImagePath) ?
+        $"/Images/Users/UserProfile/{NewsEdgeUser.ImagePath}" :
+        "/img/avatar.png";
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        NewsEdgeUser = await UserManager.FindByNameAsync(await AuthenticationState.GetUserNameAsync());
+    }
+
+    public bool EmailSending { get; set; } = false;
+
+    public async Task SendEmailConfirmAsync()
+    {
+        // TODO: email sending bug
+        if(!NewsEdgeUser.EmailConfirmed)
+        {
+            string url = LinkGenerator.GetUriByAction(Context.HttpContext, "ConfirmEmail", "AccountConfirm", new
+            {
+                userId = NewsEdgeUser.Id,
+                token = await UserManager.GenerateEmailConfirmationTokenAsync(NewsEdgeUser)
+            }, Context.HttpContext.Request.Scheme);
+
+            await EmailSender.SendConfirmEmail(NewsEdgeUser.Email, url!);
+            EmailSending = true;
+        }
+    }
+}

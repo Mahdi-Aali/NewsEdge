@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Category>
+<div class="col-xl-8 col-lg-7 position-static min-height-none">
+    <div class="ne-main-menu">
+        <nav id="dropdown">
+            <ul>
+                @foreach (Category category in Model.Where(c => c.ParentId.Equals(null)))
+                {
+                    <li>
+                        <a href="/Archive?selectedCategory=@category.CategoryId">@category.Title</a>
+                        @if (Model.Any(c => c.ParentId.Equals(category.CategoryId)))
+                        {
+                            <ul class="ne-dropdown-menu">
+                                @foreach(Category category1 in Model.Where(c => c.ParentId.Equals(category.CategoryId)))
+                                {
+                                    <li>
+                                        <a href="@(Model.Any(c => c.ParentId.Equals(category1.CategoryId)) ? $"javascript:ToggleSlide('row_{category1.CategoryId}');" : $"/Archive?selectedCategory={category1.CategoryId}")">@category1.Title</a>
+                                        @if (Model.Any(c => c.ParentId.Equals(category1.CategoryId)))
+                                        {
+                                            <ul style="display : none;" id="row_@category1.CategoryId">
+                                                @foreach(Category category2 in Model.Where(c => c.ParentId.Equals(category1.CategoryId)))
+                                                {
+                                                    <li>
+                                                        <a href="/Archive?selectedCategory=@category2.CategoryId">@category2.Title</a>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        }
+                                    </li>
+                                }
+                            </ul>
+                        }
+                     </li>
+                }
+            </ul>
+        </nav>
+    </div>
+</div>

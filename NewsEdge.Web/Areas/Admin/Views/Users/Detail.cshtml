@@ -1,0 +1,323 @@
+﻿@{
+    ViewBag.Title = $"Detail of {Model.UserName}";
+    string userImage = string.IsNullOrEmpty(Model.ImagePath) ? "/img/avatar.png" : $"/Images/Users/UserProfile/{Model.ImagePath}";
+}
+@model NewsEdgeUser
+
+<section id="user-profile">
+    <a class="btn btn-sm btn-primary" asp-area="Admin" asp-controller="Users" asp-action="Index">
+        <i class="ft-chevron-left"></i>
+    </a>
+    <div class="row">
+        <div class="col-12">
+            <div class="card profile-with-cover">
+                <div class="card-img-top img-fluid bg-cover height-300" style="background: url('/app-assets/img/photos/14.jpg') 50%;"></div>
+                <div class="media profil-cover-details row">
+                    <div class="col-5 mr-auto">
+                        <div class="align-self-start halfway-fab pr-3 pt-2">
+                            <div class="text-left">
+                                <h3 class="card-title white">@Model.UserName</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="user-area">
+    <div class="row">
+        <div class="col-xl-3 col-lg-12">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-primary">
+                        <div class="card-title">اطلاعات شخصی</div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="card-block">
+                        <div class="align-self-center halfway-fab text-center">
+                            <a class="profile-image">
+                                <img src="@userImage" class="rounded-circle img-border gradient-summer width-100" alt="Card image">
+                            </a>
+                        </div>
+                        <div class="text-center">
+                            <span class="font-medium-2 text-uppercase">@Model.RealName</span>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-sm-6">
+                                <ul class="no-list-style pr-0 text-center">
+                                    <li class="mb-2">
+                                        <span class="text-bold-500 @(Model.EmailConfirmed ? "primary" : "danger")"><a><i class="ft-mail font-small-3"></i> ایمیل :</a></span>
+                                        <a class="display-block overflow-hidden">@Model.Email</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <ul class="no-list-style pr-0 text-center">
+                                    <li class="mb-2">
+                                        <span class="text-bold-500 @(Model.PhoneNumberConfirmed ? "primary" : "danger")"><a><i class="ft-smartphone font-small-3"></i> شماره تماس :</a></span>
+                                        <span class="display-block overflow-hidden">@Model.PhoneNumber</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-4">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-danger">
+                        <div class="card-title">سرگرمی</div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="card-block">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <span class="col-6 col-md-4 col-xl-6 mt-2 float-left text-center"> <i class="icon-plane danger font-medium-3"></i> <span class="mt-1 display-block">مسافرت</span></span>
+                                    <span class="col-6 col-md-4 col-xl-6 mt-2 float-left text-center"> <i class="icon-speedometer danger font-medium-3"></i> <span class="mt-1 display-block">رانندگی</span></span>
+                                    <span class="col-6 col-md-4 col-xl-6 mt-2 float-left text-center"> <i class="icon-camera danger font-medium-3"></i> <span class="mt-1 display-block">عکاسی</span></span>
+                                    <span class="col-6 col-md-4 col-xl-6 mt-2 float-left text-center"> <i class="icon-game-controller danger font-medium-3"></i> <span class="mt-1 display-block">بازی</span></span>
+                                    <span class="col-6 col-md-4 col-xl-6 mt-2 float-left text-center"> <i class="icon-music-tone-alt danger font-medium-3"></i> <span class="mt-1 display-block">موزیک</span></span>
+                                    <span class="col-6 col-md-4 col-xl-6 mt-2 float-left text-center"> <i class="ft-monitor danger font-medium-3"></i> <span class="mt-1 display-block">موج سواری</span></span>
+                                    <span class="col-6 col-md-4 col-xl-6 mt-2 float-left text-center"> <i class="ft-pie-chart danger font-medium-3"></i> <span class="mt-1 display-block">غذا</span></span>
+                                    <span class="col-6 col-md-4 col-xl-6 mt-2 float-left text-center"> <i class="ft-tv danger font-medium-3"></i> <span class="mt-1 display-block">تلوزیون</span></span>
+                                    <span class="col-6 col-md-4 col-xl-6 mt-2 float-left text-center"> <i class="icon-basket-loaded danger font-medium-3"></i> <span class="mt-1 display-block">خريد كردن</span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-4">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <div class="card-title">عکس</div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="card-block">
+                        <div class="row">
+                            <figure class="col-xl-6 col-lg-4 col-sm-6 col-12">
+                                <img class="img-thumbnail img-fluid" src="../app-assets/img/gallery/1.jpg" alt="Image description">
+                            </figure>
+                            <figure class="col-xl-6 col-lg-4 col-sm-6 col-12">
+                                <img class="img-thumbnail img-fluid" src="../app-assets/img/gallery/2.jpg" alt="Image description">
+                            </figure>
+                            <figure class="col-xl-6 col-lg-4 col-sm-6 col-12">
+                                <img class="img-thumbnail img-fluid" src="../app-assets/img/gallery/3.jpg" alt="Image description">
+                            </figure>
+                            <figure class="col-xl-6 col-lg-4 col-sm-6 col-12">
+                                <img class="img-thumbnail img-fluid" src="../app-assets/img/gallery/4.jpg" alt="Image description">
+                            </figure>
+                            <figure class="col-xl-6 col-lg-4 col-sm-6 col-12">
+                                <img class="img-thumbnail img-fluid" src="../app-assets/img/gallery/5.jpg" alt="Image description">
+                            </figure>
+                            <figure class="col-xl-6 col-lg-4 col-sm-6 col-12">
+                                <img class="img-thumbnail img-fluid" src="../app-assets/img/gallery/6.jpg" alt="Image description">
+                            </figure>
+                            <figure class="col-xl-6 col-lg-4 col-sm-6 col-12">
+                                <img class="img-thumbnail img-fluid" src="../app-assets/img/gallery/7.jpg" alt="Image description">
+                            </figure>
+                            <figure class="col-xl-6 col-lg-4 col-sm-6 col-12">
+                                <img class="img-thumbnail img-fluid" src="../app-assets/img/gallery/8.jpg" alt="Image description">
+                            </figure>
+                            <figure class="col-xl-6 col-lg-4 col-sm-6 col-12">
+                                <img class="img-thumbnail img-fluid" src="../app-assets/img/gallery/9.jpg" alt="Image description">
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-9 col-lg-12">
+            <!--About div starts-->
+            <div id="about">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title-wrap bar-info">
+                                    <div class="card-title">در باره</div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="card-block">
+                                    <div class="mb-3">
+                                        <span class="text-bold-500 primary">درباره ی من:</span>
+                                        <span class="display-block overflow-hidden">
+                                            <p class="textalign">
+                                                @Model.Bio
+                                            </p>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title-wrap bar-warning">
+                                    <div class="card-title">اطلاعات آموزشی</div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="card-block">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                            <ul class="no-list-style">
+                                                <li class="mb-2">
+                                                    <span class="primary text-bold-500"><a><i class="ft-home font-small-3"></i> موسسه آریا</a></span>
+                                                    <span class="grey line-height-0 display-block mb-2 font-small-2">1391-1392</span>
+                                                    <span class="line-height-2 display-block overflow-hidden">استاد: رضا رضایی. شش ماه بهترین دوره ابزار توسعه.</span>
+                                                </li>
+                                                <li class="mb-2">
+                                                    <span class="primary text-bold-500"><a><i class="ft-home font-small-3"></i> دانشگاه شریف</a></span>
+                                                    <span class="grey line-height-0 display-block mb-2 font-small-2">1393-1394</span>
+                                                    <span class="line-height-2 display-block overflow-hidden">استاد: محمد محمدی . بهترین اطلاعات آموزشی برای حرفه ای شدن را به من داد.</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+                                            <ul class="no-list-style">
+                                                <li class="mb-2">
+                                                    <span class="primary text-bold-500"><a><i class="ft-home font-small-3"></i> توسعه دهنده سریع</a></span>
+                                                    <span class="grey line-height-0 display-block mb-2 font-small-2">1390-1395</span>
+                                                    <span class="line-height-2 display-block overflow-hidden">توسعه دهنده سریع برای استودیوی خلاقانه بهار</span>
+                                                </li>
+                                                <li class="mb-2">
+                                                    <span class="primary text-bold-500"><a><i class="ft-home font-small-3"></i> ارشد توسعه دهنده سریع</a></span>
+                                                    <span class="grey line-height-0 display-block mb-2 font-small-2">1395 - اکنون</span>
+                                                    <span class="line-height-2 display-block overflow-hidden">توسعه دهنده سریع ارشد برای استودیوی خلاقانه بهار</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--About div ends-->
+            <!--User Timeline div starts-->
+            <div id="timeline">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title-wrap bar-primary">
+                            <div class="card-title">گاهشمار کاربر</div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-block">
+                            <div class="timeline">
+                                <div class="timeline-title badge-pill badge-info d-inline-block px-3 py-1 mb-4 mx-5">مهر 1397</div>
+                                <ul class="list-unstyled base-timeline activity-timeline">
+
+                                    <li class="">
+                                        <div class="timeline-icon bg-danger">
+                                            <i class="fa fa-tasks"></i>
+                                        </div>
+                                        <div class="act-time">امروز</div>
+                                        <div class="base-timeline-info">
+                                            <a href="#" class="text-uppercase text-danger">وظیفه اضافه شده است</a>
+                                            <span class="d-block">شما کار # 15 را موفق به پروژه "Convex" اضافه کردید</span>
+                                        </div>
+                                        <small class="text-muted">
+                                            25 دقیقه پیش
+                                        </small>
+                                    </li>
+                                    <li class="">
+                                        <div class="timeline-icon bg-primary">
+                                            <i class="fa fa-handshake-o"></i>
+                                        </div>
+                                        <div class="act-time">دیروز</div>
+                                        <div class="base-timeline-info">
+                                            <a href="#" class="text-uppercase text-primary">معامله اضافه شده</a>
+                                            <span class="d-block">معامله نهایی با PIXINVENT انجام می شود و به لیست "بعدی معامله" اضافه می شود</span>
+                                        </div>
+                                        <small class="text-muted">
+                                            23 ساعت پیش
+                                        </small>
+                                    </li>
+                                </ul>
+
+                                <br>
+
+                                <div class="timeline-title badge-pill badge-info d-inline-block px-3 py-1 mb-4 mx-5">مهر1397</div>
+                                <ul class="list-unstyled base-timeline activity-timeline">
+
+                                    <li class="">
+                                        <div class="timeline-icon bg-dark">
+                                            <i class="fa fa-tasks"></i>
+                                        </div>
+                                        <div class="act-time">09 مهر</div>
+                                        <div class="base-timeline-info">
+                                            <a href="#" class="text-uppercase text-dark">وظیفه اضافه شده است</a>
+                                            <span class="d-block">شما کار # 11 را موفق به پروژه "Convex" اضافه کرده اید</span>
+                                        </div>
+                                        <small class="text-muted">
+                                            15 روز پیش
+                                        </small>
+                                    </li>
+                                    <li class="">
+                                        <div class="timeline-icon bg-warning">
+                                            <i class="fa fa-handshake-o"></i>
+                                        </div>
+                                        <div class="act-time">04 مهر</div>
+                                        <div class="base-timeline-info">
+                                            <a href="#" class="text-uppercase text-warning">معامله اضافه شده</a>
+                                            <span class="d-block">معامله نهایی با شرکت ABC انجام می شود و به لیست "معاملات آینده" اضافه می شود</span>
+                                        </div>
+                                        <small class="text-muted">
+                                            20 روز پیش
+                                        </small>
+                                    </li>
+                                </ul>
+
+                                <br>
+
+                                <div class="timeline-title badge-pill badge-info d-inline-block px-3 py-1 mb-4 mx-5">شهریور 1397</div>
+                                <ul class="list-unstyled base-timeline activity-timeline">
+
+                                    <li class="">
+                                        <div class="timeline-icon bg-purple">
+                                            <i class="fa fa-tasks"></i>
+                                        </div>
+                                        <div class="act-time">15 شهریور</div>
+                                        <div class="base-timeline-info">
+                                            <a href="#" class="text-uppercase text-purple">وظیفه اضافه شده است</a>
+                                            <span class="d-block">شما کار # 06 را موفقیت آمیز به پروژه "Convex"اضافه کرده اید</span>
+                                        </div>
+                                        <small class="text-muted">
+                                            1 ماه پیش
+                                        </small>
+                                    </li>
+                                    <li class="">
+                                        <div class="timeline-icon bg-danger">
+                                            <i class="fa fa-calendar-o"></i>
+                                        </div>
+                                        <div class="act-time">06 شهریور</div>
+                                        <div class="base-timeline-info">
+                                            <a href="#" class="text-uppercase text-danger">رویداد ایجاد شده است</a>
+                                            <span class="d-block">معامله نهایی با شرکت ایده پرداز انجام می شود و به لیست "معامله جدید" اضافه می شود</span>
+                                        </div>
+                                        <small class="text-muted">
+                                            1 ماه پیش
+                                        </small>
+                                    </li>
+                                </ul>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--User Timeline div ends-->
+        </div>
+    </div>
+</section>
